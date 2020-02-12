@@ -24,6 +24,9 @@
             z-index: -1;
         }
     </style>
+    <!-- LAppDefine 变量不加载可能会影响 Vue 的使用，所以让它提前加载保证 Gitee 的运行把 -->
+    <script src="js/LAppDefine.js"></script>
+    <script src="js/live2d.js"></script>
 </head>
 <body>
     <div id="app">
@@ -50,8 +53,6 @@
             <canvas id="live2d" :width="canvasWidth" :height="canvasHeight"></canvas>
         </div>
     </div>
-    <script src="js/LAppDefine.js"></script>
-    <script src="js/live2d.js"></script>
     <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
     <script>
         // 网站上似乎会因为加载延时导致错误，设置延时处理这个问题

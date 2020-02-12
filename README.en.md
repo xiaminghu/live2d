@@ -12,7 +12,7 @@ This repo add some features based on the orignal one:
 
 ## Usage
 
-[Online Demo](http://xiaminghu.github.io/live2d/)
+[Online Demo](https://xiaminghu.github.io/live2d/)
 
 It's inevitable that it would be delay when requesting in github.
 

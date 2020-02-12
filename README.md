@@ -12,7 +12,7 @@
 
 ## 使用
 
-[访问 Demo](http://xiaminghu.gitee.io/live2d/)
+[访问 Demo](https://xiaminghu.github.io/live2d/)
 
 在线访问存在一定延时，建议 clone 到本地，并在当前目录下启动静态服务器.
 

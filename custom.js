@@ -4,7 +4,7 @@ var vue = new Vue({
     data () {
         return {
             modelOrdinal: 1,
-            textureOrdinal: 1
+            textureOrdinal: 1,
         }
     },
     computed: {
@@ -31,6 +31,9 @@ var vue = new Vue({
         },
         canvasWidth () {
             return parseInt(this.canvasHeight / 400 * 150)
+        },
+        CDNAddress() {
+            return 'https://cdn.jsdelivr.net/gh/xiaminghu/live2d@0.0.1/' + this.model
         }
     },
     watch: {
@@ -54,6 +57,12 @@ var vue = new Vue({
             val = val < min ? min : val
             val = val > max ? max : val
             return val
+        },
+        copyCDNAddress() {
+            let that = this
+            new ClipboardJS('#copyCDNAddress', {
+                text: () => that.CDNAddress
+            })
         }
     },
     mounted () {

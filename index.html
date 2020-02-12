@@ -33,7 +33,7 @@
                 <font style="font-size: 14px;">{{ model }}</font>
             </div>
             <div class="card-body">
-                <font style="font-size: 12px; color: #999">建议使用上下键操作</font>
+                <font style="font-size: 12px; color: #999">建议使用上下键操作，不规范的输入会默认选择第一个模型。</font>
                 <div class="form-inline mb-2">
                     一共有 {{ totalModelCount}} 个模型，当前是第
                     <input class="form-control mx-2" type="number" 
@@ -54,6 +54,7 @@
     <script src="js/live2d.js"></script>
     <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
     <script>
+        // 网站上似乎会因为加载延时导致错误，设置延时处理这个问题
         (function () {
             var vue = new Vue({
                 el: '#app',
@@ -64,8 +65,14 @@
                     }
                 },
                 computed: {
+                    modelIndex() {
+                        return this.verifyInput(this.modelOrdinal, this.totalModelCount) - 1
+                    },
+                    textureIndex() {
+                        return this.verifyInput(this.textureOrdinal, this.totalTextureCount) - 1
+                    },
                     textures () {
-                        return LAppDefine.MODELS[this.modelOrdinal - 1]
+                        return LAppDefine.MODELS[this.modelIndex]
                     },
                     totalModelCount () {
                         return LAppDefine.MODELS.length
@@ -74,7 +81,7 @@
                         return this.textures.length
                     },
                     model () {
-                        return this.textures[this.textureOrdinal - 1]
+                        return this.textures[this.textureIndex]
                     },
                     canvasHeight () {
                         return parseInt(window.outerHeight * .8)
@@ -85,30 +92,25 @@
                 },
                 watch: {
                     modelOrdinal (val) {
-                        val = this.checkVal(val)
-                        if (val === undefined || val < 1 || val > this.totalModelCount) {
-                            val = 1
-                        }
-                        this.modelOrdinal = val
                         this.textureOrdinal = 1
                         this.load()
-                        return val
                     },
                     textureOrdinal (val) {
-                        val = this.checkVal(val)
-                        if (val === undefined || val < 1 || val > this.totalTextureCount) {
-                            val = 1
-                        }
-                        this.textureOrdinal = val
+                        console.log(typeof val)
                         this.load()
-                    }
+                    },
                 },
                 methods: {
                     load() {
                         loadlive2d("live2d", this.model)
                     },
-                    checkVal(val) {
-                        return typeof val === "number" ? parseInt(val) : 1
+                    verifyInput(val, max, min=1) {
+                        // 确保是整数
+                        val = typeof val === "number" ? parseInt(val) : min
+                        // 确保在范围内
+                        val = val < min ? min : val
+                        val = val > max ? max : val
+                        return val
                     }
                 },
                 mounted () {
